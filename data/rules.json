@@ -1,0 +1,15 @@
+{
+  "board_size": 7,
+  "start_grid": 7,
+  "max_grid": 9,
+  "grid_defence": 0.15,
+  "mech_hp": 3,
+  "mission_turns": 5,
+  "objective_mission_turns": 4,
+  "mountain_hp": 2,
+  "spawn_block_damage": 1,
+  "burn_damage": 1,
+  "bump_damage": 1,
+  "enemy_cap": 6,
+  "spawn_rows": 3
+}

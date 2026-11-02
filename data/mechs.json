@@ -1,0 +1,5 @@
+{
+  "brawler": {"name": "Brawler", "desc": "Front-line puncher. Move 3.", "hp": 3, "move": 3, "flying": false, "weapons": ["punch"]},
+  "artillery": {"name": "Artillery", "desc": "Long-range support. Move 3.", "hp": 3, "move": 3, "flying": false, "weapons": ["arc_shell"]},
+  "warper": {"name": "Warper", "desc": "Flying teleporter. Move 4, flies over anything.", "hp": 3, "move": 4, "flying": true, "weapons": ["swap"]}
+}

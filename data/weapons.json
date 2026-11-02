@@ -1,0 +1,86 @@
+{
+  "punch": {
+    "name": "Punch", "desc": "Hit an adjacent tile for 2 damage and push the target away.",
+    "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 2, "push": "away",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "range", "special"],
+    "special": {"name": "Burning Fist", "desc": "Also sets the target on fire.", "set": {"ignite": true}}
+  },
+  "arc_shell": {
+    "name": "Arc Shell", "desc": "Lob a shell 2+ tiles in a line over obstacles. 1 damage to the target, pushes the 4 adjacent tiles outward.",
+    "targeting": "artillery", "range_min": 2, "range_max": 6, "damage": 1, "push": "none",
+    "pierce": 1, "push_adjacent": true, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Shrapnel", "desc": "Adjacent tiles also take 1 damage.", "set": {"adjacent_damage": 1}}
+  },
+  "swap": {
+    "name": "Swap", "desc": "Exchange places with any unit within 3 tiles. No damage.",
+    "targeting": "swap", "range_min": 1, "range_max": 3, "damage": 0, "push": "none",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["range", "special"],
+    "special": {"name": "Static Swap", "desc": "The swapped unit takes 1 damage.", "set": {"damage": 1}}
+  },
+  "cannon": {
+    "name": "Cannon", "desc": "Fire a shot that hits the first thing in a line for 1 damage and pushes it away.",
+    "targeting": "projectile", "range_min": 1, "range_max": 6, "damage": 1, "push": "away",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Incendiary Rounds", "desc": "Sets the target on fire.", "set": {"ignite": true}}
+  },
+  "flame_jet": {
+    "name": "Flame Jet", "desc": "Torch an adjacent tile: 1 damage, sets it on fire, pushes away.",
+    "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "away",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": true,
+    "upgrades": ["damage", "range", "special"],
+    "special": {"name": "Long Nozzle", "desc": "Also hits the tile behind the target.", "set": {"pierce": 2}}
+  },
+  "grapple": {
+    "name": "Grapple", "desc": "Fire a hook that pulls the first thing in a line 1 tile toward you.",
+    "targeting": "projectile", "range_min": 1, "range_max": 6, "damage": 0, "push": "toward",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Barbed Hook", "desc": "Deals 1 damage.", "set": {"damage": 1}}
+  },
+  "shockwave": {
+    "name": "Shockwave", "desc": "Push every adjacent unit 1 tile outward.",
+    "targeting": "self", "range_min": 0, "range_max": 0, "damage": 0, "push": "away",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Heat Wave", "desc": "Sets adjacent units on fire.", "set": {"ignite": true}}
+  },
+  "slam": {
+    "name": "Slam", "desc": "Smash an adjacent tile for 3 damage. No push.",
+    "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 3, "push": "none",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Aftershock", "desc": "Also pushes the 4 adjacent tiles outward.", "set": {"push_adjacent": true}}
+  },
+  "rocket": {
+    "name": "Rocket", "desc": "Launch a rocket 2+ tiles in a line over obstacles for 2 damage.",
+    "targeting": "artillery", "range_min": 2, "range_max": 6, "damage": 2, "push": "none",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Napalm", "desc": "Sets the target on fire.", "set": {"ignite": true}}
+  },
+  "repulsor": {
+    "name": "Repulsor", "desc": "A beam that pushes the first thing in a line away. No damage.",
+    "targeting": "projectile", "range_min": 1, "range_max": 6, "damage": 0, "push": "away",
+    "pierce": 1, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Wide Beam", "desc": "Also pushes the tiles beside the impact outward.", "set": {"push_adjacent": true}}
+  },
+  "spear": {
+    "name": "Spear", "desc": "Stab 2 tiles in a line for 1 damage each, pushing both away.",
+    "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "away",
+    "pierce": 2, "push_adjacent": false, "adjacent_damage": 0, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Long Spear", "desc": "Reaches 3 tiles.", "set": {"pierce": 3}}
+  },
+  "cluster": {
+    "name": "Cluster Bomb", "desc": "Artillery 2+ tiles away. The centre is untouched; the 4 adjacent tiles take 1 damage and are pushed outward.",
+    "targeting": "artillery", "range_min": 2, "range_max": 6, "damage": 0, "push": "none",
+    "pierce": 1, "push_adjacent": true, "adjacent_damage": 1, "ignite": false,
+    "upgrades": ["damage", "special"],
+    "special": {"name": "Heavy Payload", "desc": "Adjacent tiles take 2 damage.", "set": {"adjacent_damage": 2}}
+  }
+}

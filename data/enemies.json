@@ -1,0 +1,19 @@
+{
+  "beetle": {"name": "Beetle", "desc": "Melee: 1 damage to an adjacent tile.", "hp": 2, "move": 3, "flying": false,
+    "weapon": {"name": "Mandibles", "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "none"}},
+  "hornet": {"name": "Hornet", "desc": "Flying. Melee: 1 damage to an adjacent tile.", "hp": 2, "move": 4, "flying": true,
+    "weapon": {"name": "Stinger", "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "none"}},
+  "spitter": {"name": "Spitter", "desc": "Spits acid that hits the first thing in a line for 1 damage.", "hp": 2, "move": 2, "flying": false,
+    "weapon": {"name": "Acid Spit", "targeting": "projectile", "range_min": 1, "range_max": 6, "damage": 1, "push": "none"}},
+  "scarab": {"name": "Scarab", "desc": "Artillery: lobs a 2-damage shell 2+ tiles in a line.", "hp": 2, "move": 2, "flying": false,
+    "weapon": {"name": "Boulder", "targeting": "artillery", "range_min": 2, "range_max": 6, "damage": 2, "push": "none"}},
+  "digger": {"name": "Digger", "desc": "Burrows and emerges anywhere. Melee: 2 damage.", "hp": 3, "move": 0, "flying": false, "burrow": true,
+    "weapon": {"name": "Drill", "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 2, "push": "none"}},
+  "blob": {"name": "Blob", "desc": "Melee 1. Explodes on death for 1 damage to all adjacent tiles.", "hp": 1, "move": 2, "flying": false, "explode": 1,
+    "weapon": {"name": "Ooze", "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "none"}},
+  "larva": {"name": "Larva", "desc": "Hive Queen spawn. Melee: 1 damage.", "hp": 1, "move": 2, "flying": false,
+    "weapon": {"name": "Nibble", "targeting": "melee", "range_min": 1, "range_max": 1, "damage": 1, "push": "none"}},
+  "queen": {"name": "Hive Queen", "desc": "Boss. Cannot be moved. Breathes a 3-tile line for 1 damage each and spawns larvae.", "hp": 6, "move": 1, "flying": false,
+    "immovable": true, "boss": true, "larvae": 1,
+    "weapon": {"name": "Hive Breath", "targeting": "line", "range_min": 1, "range_max": 3, "damage": 1, "push": "none"}}
+}

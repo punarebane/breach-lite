@@ -1,0 +1,9 @@
+{
+  "hit_building": 10,
+  "hit_mech": 8,
+  "hit_objective": 12,
+  "hit_enemy": -6,
+  "noise": 2.0,
+  "stand_on_spawn": -3,
+  "stand_on_fire": -4
+}
