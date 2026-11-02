@@ -21,3 +21,11 @@ Ambiguities in SPEC.md resolved with the simplest option that fits. Newest last.
 - **Blob** explosions are damage-only (no push) and chain through other blobs.
 - **Weapon upgrades**: "damage" (+1; for 0-damage cluster bombs it boosts the adjacent damage), "range" (+1 max range), "special" (per-weapon override set in weapons.json). Each weapon lists which upgrades it accepts.
 - **Weapon pool**: 12 weapons in data/weapons.json, including the 3 starters (punch, arc_shell, swap).
+
+## M2 (presentation)
+- **Renderer**: BoardView draws terrain with `_draw()`; OverlayView draws telegraphs and previews above units. Swapping these two nodes swaps the renderer.
+- **Weapon keys**: Q/W arm weapon slots 1/2 (spec only fixes 1/2/3, Z, Space). Right-click/Esc cancels.
+- **Projectile aiming**: click any tile in the line; it maps to the direction.
+- **Preview shows the grid-defence roll**: the RNG lives in the state, so the preview knows whether a building resists and shows it ("RESIST"). This is what "exactly match real resolution" implies.
+- **Undo** restores only the mech's position/burning flag (moves have no other side effects), and is refused if another mech now stands on the origin tile. Reset turn restores the full start-of-turn snapshot.
+- **Board terrain during playback** uses a display copy updated by events, so buildings fall when their event plays.

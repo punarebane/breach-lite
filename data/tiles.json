@@ -1,0 +1,11 @@
+{
+  "ground": "Ground. Nothing special.",
+  "mountain": "Mountain. Blocks movement and pushes. Breaks after 2 hits.",
+  "water": "Water. Ground units pushed in drown. Flyers are safe.",
+  "chasm": "Chasm. Non-flying units pushed in fall to their death.",
+  "forest": "Forest. Catches fire when hit; burning units take 1 damage per turn.",
+  "building": "Building. Each hit costs 1 grid power (15% chance to resist).",
+  "objective": "Objective building. Protect it for a bonus. Hits also cost grid power.",
+  "burning": "On fire: any unit here catches fire.",
+  "spawn": "Spawn point: an enemy emerges here after the enemy attacks. A unit standing on it blocks it and takes 1 damage."
+}

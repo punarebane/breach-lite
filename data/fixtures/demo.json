@@ -1,0 +1,69 @@
+{
+  "seed": 42,
+  "map": [
+    "..F..M.",
+    ".~~....",
+    "...F..M",
+    ".B..~..",
+    "b....O.",
+    "...B...",
+    "_....B."
+  ],
+  "mechs": [
+    {
+      "kind": "brawler",
+      "pos": [
+        2,
+        4
+      ]
+    },
+    {
+      "kind": "artillery",
+      "pos": [
+        3,
+        6
+      ]
+    },
+    {
+      "kind": "warper",
+      "pos": [
+        4,
+        4
+      ]
+    }
+  ],
+  "enemies": [
+    {
+      "kind": "beetle",
+      "pos": [
+        2,
+        2
+      ]
+    },
+    {
+      "kind": "scarab",
+      "pos": [
+        5,
+        1
+      ]
+    },
+    {
+      "kind": "blob",
+      "pos": [
+        0,
+        3
+      ]
+    }
+  ],
+  "grid": 7,
+  "turns": 5,
+  "mission": {
+    "enemy_pool": {
+      "beetle": 3,
+      "spitter": 2,
+      "hornet": 1
+    },
+    "spawns_per_turn": 2,
+    "bonus": "kills"
+  }
+}
