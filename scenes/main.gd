@@ -55,9 +55,10 @@ func _on_continue() -> void:
 
 func _on_tutorial() -> void:
 	print("TUTORIAL_STARTED")
-	var state := Fixture.load_file("tutorial")
-	var mv := _show_mission(Mission.new(state), "TUTORIAL")
+	var mv := MissionView.new()
+	mv.setup(Mission.new(Fixture.load_file("tutorial")), "TUTORIAL")
 	mv.tutorial = true
+	_set_screen(mv)
 	mv.finished.connect(func(_won: bool) -> void: show_menu())
 
 

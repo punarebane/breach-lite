@@ -1,15 +1,20 @@
 # Progress
 
 ## Done
-- M1: project setup, GUT, core rules (Board, Unit, GameState, Action, Event, Resolver, Rules), 12 data-driven weapons, tests.
-- M2: board presentation (BoardView/_draw renderer, UnitView code-drawn units, OverlayView for telegraphs + previews), select/move/undo/attack with live preview, HUD, keyboard shortcuts, `--screenshot=<fixture>[:x:y]`.
-- M3: enemy utility AI (sequential planning), telegraphs with order badges, phase B resolution (fire → attacks in order → spawns), spawn blocking, grid power, win/lose, reset turn; mission generator (needed early for the fuzz); preview property test (2,000 pairs, events + full state fingerprint) and invariant fuzz (500 seeded missions, random-legal-action bot).
-- M4: RunState (4 islands x 2 missions + 2-phase Hive finale), island flavours + templates in the seeded generator, bonus objectives → Reputation, shop (grid / reactor cores / 12-weapon pool, 2 slots per mech), save/continue (user://save.json), run screen, main menu, tutorial fixture with contextual hints, generated SFX (tools/gen_sfx.gd → audio/*.wav). Greedy PlayerBot + tools/sim.gd written.
-- M5: balance sim run (below), hit pause, screen shake, telegraph pulses, idle unit animation, SFX hooks, main menu, tutorial with contextual hints, hover tooltips for every unit/tile and weapon buttons.
+- **M1** Core rules as pure RefCounted classes (core/: Board, Unit, GameState, Action, Event, Resolver, Rules, SeededRng, Data, Fixture), BFS movement incl. flying/burrowing, push/bump/water/chasm/fire/mountains/buildings/grid defence, 12 data-driven weapons.
+- **M2** Presentation: BoardView (`_draw`), UnitView (code-drawn), OverlayView (telegraphs + preview overlays), MissionView (input, HUD, event playback with tweens). Select/move/undo/attack with live preview; 1/2/3, Q/W, Z, Space, Esc/right-click.
+- **M3** Seeded utility AI with sequential planning, numbered telegraphs, phase B resolution, spawns + blocking, grid power, win/lose, reset turn. Preview property test (2,000 pairs; events and full state fingerprint) and invariant fuzz (500 missions) pass.
+- **M4** Mission generator (templates + island flavours, connectivity check), 4 islands x 2 missions + 2-phase Hive Queen finale, bonus objectives → Reputation, shop (grid, reactor cores, 12-weapon pool, 2 slots), save/continue.
+- **M5** Balance sim on target (below). Juice: tweens, hit pause, screen shake, pulsing telegraphs/spawns, idle animation, generated SFX. Main menu, tutorial with contextual hints, hover tooltips for every unit and tile.
+- **M6** Export presets: Web (single-threaded, no SharedArrayBuffer), Windows, macOS (universal, unsigned), Linux. `tools/package.sh` → `build/dist/*.zip`. ITCH.md. Screenshots in screenshots/. Web smoke test (Playwright): menu appears, click starts tutorial, 0 console errors.
+
+## Acceptance checks (all passing, 2026-11-02)
+- GUT headless: **104 tests passing** (`godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests -gexit`, ~20 s).
+- Preview property test + invariant fuzz: pass (tests/test_property_fuzz.gd).
+- Balance targets: met (below).
+- Web: `node tools/web_smoke.js build/web` → `WEB SMOKE: PASS`, 0 console errors.
 
 ## Balance (tools/sim.gd, 300 seeded runs, greedy 1-ply bot)
-Run with `/home/claude/runsim.sh 300`-style parallel workers or `godot --headless -s tools/sim.gd -- --runs=300`.
-
 ```
 runs: 300   run win rate: 22.3%
 missions: 2327   grid lost per mission: 1.10   bonus rate: 68.1%
@@ -20,14 +25,20 @@ missions: 2327   grid lost per mission: 1.10   bonus rate: 68.1%
   island3  played  542  win  88.9%  grid lost/mission 1.29
   island4  played  396  win  69.9%  grid lost/mission 1.80
 ```
-Targets: island-1 mission win rate > 85% ✓ (99.7%), run win rate 10-30% ✓ (22.3%). The first data pass already met both, so no tuning changes were needed; difficulty ramps through the islands' enemy pools and spawn counts (data/islands.json).
+Targets: island-1 mission win rate > 85% ✓, run win rate 10-30% ✓. Single worker: `godot --headless -s tools/sim.gd -- --runs=300` (~25 min); 4 parallel workers with `--start`/`--out` + `tools/sim_merge.gd` (~4.5 min).
 
-## State
-- Tests: 101 passing (`godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests -gexit`).
-- Screenshots need a display: `xvfb-run -a godot --rendering-driver opengl3 -- --screenshot=demo`.
+## How to run things
+- Play: open the folder in Godot 4.4+ and press F5 (main scene: scenes/main.tscn).
+- Screenshots (needs a display): `xvfb-run -a godot --rendering-driver opengl3 -- --screenshot=<fixture>[:x:y]` (also `menu`, `run`, `mission:<seed>:<island>`).
+- Regenerate SFX: `godot --headless -s tools/gen_sfx.gd`.
+- Package: `tools/package.sh` (needs export templates 4.4.1).
 
-## Known bugs
-- none known
+## Known bugs / rough edges
+- Damage numbers in previews show HP actually lost (a 2-damage punch on a 1-HP Blob shows -1).
+- Playback moves units in a straight line, not along the BFS path.
+- Mid-mission saves are not supported (continue resumes between missions), by design.
+- macOS build is unsigned (Gatekeeper: right-click → Open).
 
 ## Next up
-- M6: export presets (Web single-threaded, Windows, macOS, Linux), itch.io zip, ITCH.md, Playwright smoke test of the web build.
+- Feel pass from real playtesting: animation timing, an end-of-turn "threat summary", path-following move tweens.
+- More mission templates and a second boss pattern for replay variety.

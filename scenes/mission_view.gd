@@ -54,8 +54,9 @@ func _ready() -> void:
 	_build_hud()
 	board_view.board = mission.state.board.duplicate()
 	_rebuild_views()
+	refresh()
 	if mission.turn_snapshot == null:
-		await play(mission.begin_turn())
+		await run_events(mission.begin_turn())
 	refresh()
 
 
