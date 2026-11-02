@@ -104,3 +104,14 @@ func spawn_at(p: Vector2i) -> int:
 
 func is_playing() -> bool:
 	return status == Status.PLAYING
+
+
+## Canonical text of everything that matters for rules; equal fingerprints = equal states.
+func fingerprint() -> String:
+	var parts := PackedStringArray()
+	parts.append("g%d t%d/%d o%d k%d md%d ol%s st%d r%d a%d" % [grid_power, turn, max_turns, next_order, kills, mech_damage, objective_lost, status, grid_rng.state, ai_rng.state])
+	parts.append(str(board.terrain) + str(board.hp) + str(board.fire))
+	for u in units:
+		parts.append("%d:%s@%s hp%d a%s b%s m%s x%s t%s/%d/%d w%s" % [u.id, u.kind, u.pos, u.hp, u.alive, u.burning, u.has_moved, u.has_acted, u.tele_dir, u.tele_dist, u.tele_order, u.weapons])
+	parts.append(str(spawns))
+	return "|".join(parts)

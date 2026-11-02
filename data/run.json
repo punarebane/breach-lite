@@ -1,0 +1,12 @@
+{
+  "rep_per_mission": 1,
+  "rep_per_bonus": 1,
+  "bonus_kills": 7,
+  "bonus_max_mech_damage": 1,
+  "shop_offers": 3,
+  "cost_grid": 2,
+  "cost_reactor": 2,
+  "cost_weapon": 3,
+  "squad": ["brawler", "artillery", "warper"],
+  "missions_per_island": 2
+}

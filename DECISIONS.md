@@ -29,3 +29,12 @@ Ambiguities in SPEC.md resolved with the simplest option that fits. Newest last.
 - **Preview shows the grid-defence roll**: the RNG lives in the state, so the preview knows whether a building resists and shows it ("RESIST"). This is what "exactly match real resolution" implies.
 - **Undo** restores only the mech's position/burning flag (moves have no other side effects), and is refused if another mech now stands on the origin tile. Reset turn restores the full start-of-turn snapshot.
 - **Board terrain during playback** uses a display copy updated by events, so buildings fall when their event plays.
+
+## M3 (enemies)
+- **AI ordering**: enemies plan in unit-id order (oldest first); each applies its move before the next one plans. Telegraph order numbers follow planning order.
+- **AI extras** beyond the spec's weights (all in data/ai.json): -3 for ending on a spawn marker, -4 for ending on a burning tile. Noise is uniform [0, 2) from the AI RNG stream per candidate.
+- **Enemy weapons never push** (spec gives only damage values).
+- **Phase B order**: fire damage → telegraphed attacks in order → spawns emerge → next turn. The mission ends immediately when grid hits 0.
+- **Spawns**: marked on free ground/forest tiles in the top 3 rows (fallback: anywhere), never on the last turn; total enemies + markers capped at 6 (rules.json). Hive Queen marks `larvae` larva spawns within 2 tiles of itself.
+- **Win**: the mission is won when phase B of the last turn resolves. Missions with `kill_boss` also end as soon as the boss dies.
+- **Generator** (gen/mission_gen.gd) was pulled into M3 because the fuzz needs real missions. Layouts are rejected unless all ground tiles form one connected region.

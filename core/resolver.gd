@@ -106,7 +106,10 @@ static func _do_end_turn(state: GameState, ev: Array[Event]) -> void:
 			if _over(state):
 				return
 			continue
-		var e := state.add_unit(Unit.make_enemy(String(s["kind"])), p)
+		var e := Unit.make_enemy(String(s["kind"]))
+		e.hp += int(state.mission.get("enemy_hp_bonus", 0))
+		e.max_hp = e.hp
+		state.add_unit(e, p)
 		ev.append(Event.new("spawned", e.id, p, p, 0, e.kind))
 		_on_enter(state, e, ev)
 	# 4. Next turn.
@@ -342,3 +345,9 @@ static func _check_status(state: GameState, ev: Array[Event]) -> void:
 		state.status = GameState.Status.LOST
 		state.lost_reason = "mechs"
 		ev.append(Event.new("mission_lost", -1, Vector2i(-1, -1), Vector2i(-1, -1), 0, "mechs"))
+	elif bool(state.mission.get("kill_boss", false)):
+		for u in state.enemies():
+			if u.boss:
+				return
+		state.status = GameState.Status.WON
+		ev.append(Event.new("mission_won", -1, Vector2i(-1, -1), Vector2i(-1, -1), 0, "boss"))

@@ -1,0 +1,10 @@
+[
+  {"name": "Verdant Reach", "flavour": "forest", "terrain": {"forest": 7, "mountain": 2, "water": 1, "chasm": 0},
+   "enemy_pool": {"beetle": 4, "hornet": 2, "blob": 2}, "initial_enemies": 2, "spawns_per_turn": 2, "enemy_hp_bonus": 0},
+  {"name": "Tidewater Flats", "flavour": "water", "terrain": {"forest": 1, "mountain": 1, "water": 7, "chasm": 0},
+   "enemy_pool": {"beetle": 3, "hornet": 2, "spitter": 3, "blob": 1}, "initial_enemies": 3, "spawns_per_turn": 2, "enemy_hp_bonus": 0},
+  {"name": "Granite Spine", "flavour": "mountains", "terrain": {"forest": 1, "mountain": 7, "water": 1, "chasm": 0},
+   "enemy_pool": {"beetle": 2, "spitter": 2, "scarab": 3, "digger": 2, "blob": 1}, "initial_enemies": 3, "spawns_per_turn": 2, "enemy_hp_bonus": 0},
+  {"name": "The Rift", "flavour": "chasms", "terrain": {"forest": 1, "mountain": 2, "water": 0, "chasm": 6},
+   "enemy_pool": {"hornet": 2, "spitter": 2, "scarab": 2, "digger": 3, "blob": 2}, "initial_enemies": 3, "spawns_per_turn": 3, "enemy_hp_bonus": 0}
+]

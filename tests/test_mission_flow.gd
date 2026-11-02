@@ -107,3 +107,18 @@ func test_view_click_select_move_attack() -> void:
 	var t := Rules.targets(m.state, b, b.weapon_def(0))[0]
 	await mv.click_tile(t)
 	assert_true(b.has_acted)
+
+
+func test_view_end_turn_plays_enemy_phase() -> void:
+	var m := _mission()
+	var mv := MissionView.new()
+	mv.setup(m, "TEST")
+	mv.fast = true
+	add_child_autofree(mv)
+	await wait_frames(2)
+	await mv._on_end_turn()
+	assert_true(m.state.turn == 2 or not m.state.is_playing())
+	assert_false(mv.busy)
+	for u in m.state.alive_units():
+		assert_true(mv.views.has(u.id), "view exists for unit %d" % u.id)
+		assert_eq(mv.views[u.id].position, BoardView.center(u.pos))
