@@ -38,10 +38,13 @@ func sync(u: Unit) -> void:
 	queue_redraw()
 
 
+func _ready() -> void:
+	bob = float(unit_id) * 1.7
+
+
 func _process(delta: float) -> void:
-	if flying:
-		bob += delta * 3.0
-		queue_redraw()
+	bob += delta * 3.0
+	queue_redraw()
 
 
 func _body_color() -> Color:
@@ -55,6 +58,9 @@ func _draw() -> void:
 	var lift := 0.0
 	if flying:
 		lift = -8.0 + sin(bob) * 2.0
+	else:
+		lift = sin(bob * 0.7) * 1.0
+	var breathe := 1.0 + sin(bob * 0.7) * 0.025
 	var shadow := Pal.c("shadow")
 	var col := _body_color()
 	var dark := (Pal.c("mech_dark") if is_mech else Pal.c("enemy_dark")).lerp(Color.WHITE, flash * 0.5)
@@ -64,7 +70,7 @@ func _draw() -> void:
 	# Hard shadow.
 	draw_set_transform(Vector2(6, 8), 0, Vector2.ONE)
 	_shape(s, shadow, shadow)
-	draw_set_transform(Vector2(0, lift), 0, Vector2.ONE)
+	draw_set_transform(Vector2(0, lift), 0, Vector2(breathe, 1.0 / breathe))
 	_shape(s, col, dark)
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 	if selected:

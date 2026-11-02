@@ -47,3 +47,8 @@ Ambiguities in SPEC.md resolved with the simplest option that fits. Newest last.
 - **Save** is written after every mission and shop purchase, deleted when the run ends. Continuing restores the run between missions (not mid-mission).
 - **Mission seed** = run seed x 1000 + island/mission offsets, so a saved run regenerates the same next mission.
 - **SFX**: tools/gen_sfx.gd synthesises sfxr-style WAVs (square/saw/sine/noise + pitch slide + envelope) from data/sfx.json into audio/ (bundled, committed).
+
+## M5 (balance + juice)
+- **Bot heuristic** (ai/player_bot.gd): score = kills, grid power, remaining enemy HP, mech damage/losses, plus every telegraph's current hit (building, objective, mech, enemy), spawn blocking and burning enemies. Mechs are picked best-first each turn. Its weights are bot-only constants, not game tuning, so they live in the bot.
+- **Shop policy in the sim**: grid if grid ≤ 5, else reactor cores, else a weapon for a mech with a free slot.
+- **Hit pause**: Engine.time_scale drops to 0.05 for ~70-90 ms on 2+ damage and on deaths; always restored on exit.

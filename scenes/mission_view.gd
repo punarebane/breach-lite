@@ -533,10 +533,13 @@ func _play_one(e: Event) -> void:
 				tw.tween_property(v, "flash", 0.0, _dur(0.25))
 				_float_text(BoardView.center(e.pos), "-%d" % e.amount, Pal.c("preview_damage"))
 				shake = maxf(shake, 3.0 + e.amount)
+				if e.amount >= 2:
+					await _hit_pause(0.07)
 				await _pause(0.12)
 		"destroyed", "disabled", "drowned", "fell":
 			if e.type == "drowned" or e.type == "fell":
 				Sfx.play("drown")
+			await _hit_pause(0.09)
 			if v and is_instance_valid(v):
 				var tw := _tween().set_parallel(true)
 				tw.tween_property(v, "scale", Vector2(0.2, 0.2), _dur(0.25))
@@ -590,6 +593,19 @@ func _play_one(e: Event) -> void:
 		"mission_lost":
 			Sfx.play("lose")
 			await _banner("MISSION FAILED")
+
+
+## Freeze-frame on big hits: time slows to a crawl for a few real milliseconds.
+func _hit_pause(t: float) -> void:
+	if fast:
+		return
+	Engine.time_scale = 0.05
+	await get_tree().create_timer(t, true, false, true).timeout
+	Engine.time_scale = 1.0
+
+
+func _exit_tree() -> void:
+	Engine.time_scale = 1.0
 
 
 func _pause(t: float) -> void:

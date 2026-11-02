@@ -20,5 +20,5 @@
   ],
   "grid": 7,
   "turns": 3,
-  "mission": {"enemy_pool": {"beetle": 3, "blob": 1}, "spawns_per_turn": 1, "bonus": "kills", "tutorial": true}
+  "mission": {"enemy_pool": {"beetle": 3, "blob": 1}, "spawns_per_turn": 1, "bonus": "", "tutorial": true}
 }
