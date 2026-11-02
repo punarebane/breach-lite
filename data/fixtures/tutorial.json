@@ -1,0 +1,24 @@
+{
+  "seed": 11,
+  "map": [
+    "...F...",
+    "..M....",
+    ".......",
+    "~~.....",
+    "~..B.B.",
+    "...b...",
+    "......."
+  ],
+  "mechs": [
+    {"kind": "brawler", "pos": [2, 5]},
+    {"kind": "artillery", "pos": [4, 6]},
+    {"kind": "warper", "pos": [6, 5]}
+  ],
+  "enemies": [
+    {"kind": "beetle", "pos": [3, 2]},
+    {"kind": "beetle", "pos": [1, 2]}
+  ],
+  "grid": 7,
+  "turns": 3,
+  "mission": {"enemy_pool": {"beetle": 3, "blob": 1}, "spawns_per_turn": 1, "bonus": "kills", "tutorial": true}
+}

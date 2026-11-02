@@ -19,6 +19,8 @@ var armed_slot: int = -1
 var busy: bool = false
 var hover_tile: Vector2i = Vector2i(-1, -1)
 var fast: bool = false
+var tutorial: bool = false
+var tutor_label: Label
 
 var hud: CanvasLayer
 var top_label: Label
@@ -67,9 +69,10 @@ func _build_hud() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hud.add_child(root)
-	top_label = UI.label("", 22)
-	top_label.position = Vector2(300, 30)
-	top_label.size = Vector2(600, 40)
+	top_label = UI.label("", 21)
+	top_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	top_label.position = Vector2(300, 34)
+	top_label.size = Vector2(950, 40)
 	root.add_child(top_label)
 	var side := UI.panel()
 	side.position = Vector2(905, 90)
@@ -107,6 +110,11 @@ func _build_hud() -> void:
 	var squad := UI.label("", 16)
 	squad.name = "Squad"
 	lv.add_child(squad)
+	tutor_label = UI.label("", 16, "accent")
+	tutor_label.position = Vector2(30, 410)
+	tutor_label.size = Vector2(250, 280)
+	tutor_label.visible = false
+	root.add_child(tutor_label)
 	banner = UI.label("", 34, "accent")
 	banner.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	banner.position = Vector2(300, 330)
@@ -148,7 +156,38 @@ func refresh() -> void:
 	undo_button.disabled = busy or not mission.can_undo(selected)
 	reset_button.disabled = busy or not mission.can_reset()
 	end_button.disabled = busy or not s.is_playing()
+	if tutorial:
+		tutor_label.visible = true
+		tutor_label.text = _tutor_text()
 	_refresh_overlays()
+
+
+func _tutor_text() -> String:
+	var t: Dictionary = Data.load_json("tutorial")
+	var s := mission.state
+	if s.status == GameState.Status.WON:
+		return t["won"]
+	var u := s.get_unit(selected)
+	var key := "no_selection"
+	var all_done := true
+	for m in s.alive_units(Unit.Team.MECH):
+		if not m.has_acted:
+			all_done = false
+	if all_done:
+		key = "all_done"
+	elif u != null and u.alive:
+		if armed_slot >= 0:
+			key = "armed"
+		elif u.has_acted:
+			key = "acted"
+		elif u.has_moved:
+			key = "moved"
+		else:
+			key = "can_move"
+	var txt := String(t[key])
+	if s.turn == 1 and key == "no_selection":
+		txt = String(t["intro"]) + "\n\n" + txt
+	return txt
 
 
 func _bonus_text(bonus: String) -> String:
@@ -297,6 +336,8 @@ func _select_index(i: int) -> void:
 
 
 func select(uid: int) -> void:
+	if uid >= 0 and uid != selected:
+		Sfx.play("select")
 	selected = uid
 	armed_slot = -1
 	for id in views:
@@ -446,6 +487,7 @@ func _play_one(e: Event) -> void:
 		"phase_b":
 			await _banner("ENEMIES ATTACK")
 		"moved", "undo_move":
+			Sfx.play("move")
 			if v:
 				var tw := _tween()
 				tw.tween_property(v, "position", BoardView.center(e.to), _dur(0.22))
@@ -456,6 +498,7 @@ func _play_one(e: Event) -> void:
 				tw.tween_property(v, "position", BoardView.center(e.to), _dur(0.14))
 				await tw.finished
 		"bumped":
+			Sfx.play("bump")
 			if v:
 				var a := BoardView.center(e.pos)
 				var tw := _tween()
@@ -464,6 +507,7 @@ func _play_one(e: Event) -> void:
 				await tw.finished
 				shake = 4.0
 		"swapped":
+			Sfx.play("swap")
 			var other := _view(e.amount)
 			var tw := _tween().set_parallel(true)
 			if v:
@@ -472,6 +516,7 @@ func _play_one(e: Event) -> void:
 				tw.tween_property(other, "position", BoardView.center(e.pos), _dur(0.2))
 			await tw.finished
 		"attack":
+			Sfx.play("shell" if e.info in ["arc_shell", "rocket", "cluster", "scarab"] else "punch")
 			if v:
 				var a := v.position
 				var dir := (BoardView.center(e.to) - a).normalized()
@@ -480,6 +525,7 @@ func _play_one(e: Event) -> void:
 				tw.tween_property(v, "position", a, _dur(0.08))
 				await tw.finished
 		"damaged":
+			Sfx.play("damage", 0.9 + 0.1 * e.amount)
 			if v:
 				v.hp = maxi(0, v.hp - e.amount)
 				var tw := _tween()
@@ -489,6 +535,8 @@ func _play_one(e: Event) -> void:
 				shake = maxf(shake, 3.0 + e.amount)
 				await _pause(0.12)
 		"destroyed", "disabled", "drowned", "fell":
+			if e.type == "drowned" or e.type == "fell":
+				Sfx.play("drown")
 			if v and is_instance_valid(v):
 				var tw := _tween().set_parallel(true)
 				tw.tween_property(v, "scale", Vector2(0.2, 0.2), _dur(0.25))
@@ -496,10 +544,12 @@ func _play_one(e: Event) -> void:
 				await tw.finished
 				v.visible = false
 		"exploded":
+			Sfx.play("explode")
 			_float_text(BoardView.center(e.pos), "BOOM", Pal.c("fire"))
 			shake = 8.0
 			await _pause(0.12)
 		"spawned":
+			Sfx.play("spawn")
 			var u := mission.state.get_unit(e.unit_id)
 			if u and not views.has(u.id):
 				var nv := _add_view(u)
@@ -511,11 +561,13 @@ func _play_one(e: Event) -> void:
 			_float_text(BoardView.center(e.pos), "BLOCKED", Pal.c("accent"))
 			await _pause(0.15)
 		"grid_lost":
+			Sfx.play("grid")
 			b.hp[b.idx(e.pos)] = maxi(0, b.hp[b.idx(e.pos)] - 1)
 			_float_text(BoardView.center(e.pos), "-1 GRID", Pal.c("preview_grid"))
 			shake = 10.0
 			await _pause(0.2)
 		"grid_resisted":
+			Sfx.play("resist")
 			_float_text(BoardView.center(e.pos), "RESISTED", Pal.c("good"))
 			await _pause(0.2)
 		"building_destroyed", "mountain_destroyed":
@@ -524,6 +576,7 @@ func _play_one(e: Event) -> void:
 		"mountain_damaged":
 			b.hp[b.idx(e.pos)] = e.amount
 		"fire_started":
+			Sfx.play("fire")
 			b.fire[b.idx(e.pos)] = 1
 		"caught_fire":
 			if v:
@@ -532,8 +585,10 @@ func _play_one(e: Event) -> void:
 		"burn":
 			_float_text(BoardView.center(e.pos), "BURN", Pal.c("fire"))
 		"mission_won":
+			Sfx.play("win")
 			await _banner("MISSION COMPLETE")
 		"mission_lost":
+			Sfx.play("lose")
 			await _banner("MISSION FAILED")
 
 
@@ -544,6 +599,8 @@ func _pause(t: float) -> void:
 
 
 func _banner(text: String) -> void:
+	if fast:
+		return
 	banner.text = text
 	banner.visible = true
 	await _pause(0.6)

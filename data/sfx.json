@@ -1,0 +1,19 @@
+{
+  "select": {"wave": "square", "freq": 660, "freq_end": 880, "dur": 0.06, "vol": 0.25},
+  "move": {"wave": "square", "freq": 220, "freq_end": 330, "dur": 0.1, "vol": 0.2},
+  "punch": {"wave": "noise", "freq": 1800, "freq_end": 300, "dur": 0.18, "vol": 0.6},
+  "shell": {"wave": "square", "freq": 900, "freq_end": 120, "dur": 0.35, "vol": 0.35},
+  "swap": {"wave": "sine", "freq": 300, "freq_end": 1200, "dur": 0.25, "vol": 0.45, "vibrato": 0.2},
+  "bump": {"wave": "noise", "freq": 600, "freq_end": 200, "dur": 0.12, "vol": 0.6},
+  "damage": {"wave": "square", "freq": 300, "freq_end": 90, "dur": 0.14, "vol": 0.35},
+  "explode": {"wave": "noise", "freq": 900, "freq_end": 60, "dur": 0.5, "vol": 0.7},
+  "grid": {"wave": "saw", "freq": 180, "freq_end": 60, "dur": 0.45, "vol": 0.45},
+  "resist": {"wave": "sine", "freq": 880, "freq_end": 1320, "dur": 0.2, "vol": 0.4},
+  "spawn": {"wave": "saw", "freq": 80, "freq_end": 240, "dur": 0.3, "vol": 0.35},
+  "fire": {"wave": "noise", "freq": 3000, "freq_end": 1500, "dur": 0.3, "vol": 0.3},
+  "drown": {"wave": "sine", "freq": 500, "freq_end": 80, "dur": 0.4, "vol": 0.45},
+  "telegraph": {"wave": "square", "freq": 520, "freq_end": 520, "dur": 0.05, "vol": 0.15},
+  "click": {"wave": "square", "freq": 1000, "freq_end": 1000, "dur": 0.03, "vol": 0.2},
+  "win": {"wave": "square", "freq": 440, "freq_end": 990, "dur": 0.6, "vol": 0.35, "vibrato": 0.05},
+  "lose": {"wave": "saw", "freq": 300, "freq_end": 70, "dur": 0.8, "vol": 0.4}
+}

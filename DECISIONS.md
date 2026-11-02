@@ -38,3 +38,12 @@ Ambiguities in SPEC.md resolved with the simplest option that fits. Newest last.
 - **Spawns**: marked on free ground/forest tiles in the top 3 rows (fallback: anywhere), never on the last turn; total enemies + markers capped at 6 (rules.json). Hive Queen marks `larvae` larva spawns within 2 tiles of itself.
 - **Win**: the mission is won when phase B of the last turn resolves. Missions with `kill_boss` also end as soon as the boss dies.
 - **Generator** (gen/mission_gen.gd) was pulled into M3 because the fuzz needs real missions. Layouts are rejected unless all ground tiles form one connected region.
+
+## M4 (run structure)
+- **Any mission failure ends the run** (grid 0 or all mechs disabled). Grid power carries over between missions; mechs are fully repaired after every mission (and between the two final phases).
+- **Reputation**: +1 per mission won, +1 more if its bonus objective is met (run.json). Each mission rolls one bonus from its template: "kills" (kill 7+), "objective" (objective building survives; objective missions last 4 turns), "no_damage" (mechs take at most 1 damage, i.e. "less than 2").
+- **Shop** opens after each island (4 times, the last before the Hive). Offers: always +1 grid (cap 9), up to 2 reactor cores for weapons the squad owns, and random unowned weapons from the pool. Weapons go into slot 2 of a chosen mech (replacing it if full).
+- **Final mission**: phase 1 is a 4-turn mixed swarm; phase 2 places the Hive Queen at the top centre and is won by killing her or surviving 5 turns.
+- **Save** is written after every mission and shop purchase, deleted when the run ends. Continuing restores the run between missions (not mid-mission).
+- **Mission seed** = run seed x 1000 + island/mission offsets, so a saved run regenerates the same next mission.
+- **SFX**: tools/gen_sfx.gd synthesises sfxr-style WAVs (square/saw/sine/noise + pitch slide + envelope) from data/sfx.json into audio/ (bundled, committed).

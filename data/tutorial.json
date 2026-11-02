@@ -1,0 +1,10 @@
+{
+  "intro": "TUTORIAL. Red lines show exactly what each enemy will hit at the end of your turn, and the badge shows the order. Attacks hit whatever is on that tile THEN, so push enemies out of the way, or into each other.",
+  "no_selection": "Select a mech: click it or press 1, 2 or 3.",
+  "can_move": "Blue tiles are where this mech can move. Click one. Z undoes a move until the mech acts.",
+  "moved": "Now arm a weapon: click it on the right or press Q.",
+  "armed": "Hover a yellow tile to PREVIEW the result: damage, pushes, deaths and grid loss. Click to confirm.",
+  "acted": "This mech is done. Use the others, then press Space to end your turn.",
+  "all_done": "Every mech has acted. Press Space: enemies attack in badge order, then spawns (red rings) emerge. A unit standing on a ring blocks it and takes 1 damage.",
+  "won": "Tutorial complete! Start a new run from the menu."
+}
